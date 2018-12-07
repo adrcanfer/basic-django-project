@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block contenido %}
+    <h2>Listado de cantantes</h2>
+    <ul>
+        {% for cantante in cantantes %}
+            <li>{{ cantante.nombre }}</li>
+            {% for cancion in cantante.cancion_set.all %}
+                <ul>
+                    <li>{{ cancion.titulo }} - {{ cancion.anyo }} - {{ cancion.autor.nombre }}</li>
+                </ul>
+            {% endfor %}
+        {% endfor %}
+    </ul>
+    <a href="/cantante/new">Crear cantante</a>
+{% endblock %}

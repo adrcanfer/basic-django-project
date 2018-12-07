@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block contenido %}
+    <h2>Listado de géneros</h2>
+    <ul>
+        {% for genero in generos %}
+            <li>{{ genero.nombre }}</li>
+            {% for cancion in genero.cancion_set.all %}
+                <ul>
+                    <li>{{ cancion.titulo }} - {{ cancion.anyo }} - {{ cancion.autor.nombre }}</li>
+                </ul>
+            {% endfor %}
+        {% endfor %}
+    </ul>
+    <a href="/genero/new">Crear género</a>
+{% endblock %}

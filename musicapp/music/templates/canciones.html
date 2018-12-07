@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block contenido %}
+    <h2>Listado de canciones</h2>
+    <ul>
+    {% for cancion in canciones %}
+        <li>{{ cancion.titulo }} - {{ cancion.anyo }} - {{ cancion.autor.nombre }}</li>
+    {% endfor %}
+</ul>
+    <a href="/cancion/new">Crear canción</a>
+{% endblock %}
