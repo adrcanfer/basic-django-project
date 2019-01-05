@@ -1,5 +1,5 @@
 # Proyecto básico con Django
-Este repositorio contiene un projecto de prueba realizado con el framework Django
+Este repositorio contiene un projecto de prueba realizado con el framework Django. También se ha creado un test básico que no comprueba nada para incluir Travis CI.
 
 ## ¿Qué necesitamos?
 Para lanzar este proyecto sólo necesitaríamos tener Python instalado. 
