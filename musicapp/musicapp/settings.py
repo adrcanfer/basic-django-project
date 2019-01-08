@@ -122,4 +122,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+BASE_URL = 'https://musicapp-adrcanfer.herokuapp.com/'
+
 django_heroku.settings(locals())
