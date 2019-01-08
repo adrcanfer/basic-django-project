@@ -124,7 +124,8 @@ STATIC_URL = '/static/'
 BASE_URL = 'https://musicapp-adrcanfer.herokuapp.com/'
 
 
-import django_heroku
-django_heroku.settings(locals(), test_runner=False)
-
-
+try:
+    import django_heroku
+    django_heroku.settings(locals())
+except:
+    None
