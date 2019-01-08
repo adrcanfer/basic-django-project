@@ -1,13 +1,17 @@
 language: python
 python:
-- "3.6"
+- '3.6'
 env:
 - DJANGO=2.0
-before_install:
-- cd musicapp
 install:
 - pip install -r requirements.txt
 script:
+- cd musicapp
 - python manage.py test
 notifications:
   email: false
+deploy:
+  provider: heroku
+  api_key:
+    secure: CjadPpF6YFY5JeTDJwnFB0L7YJOGogbo6PZ9wZPmD+Ls/E9iqG/RVVrHM1WKyd8SdTwcqaW7uVG6k/5FRAfPCYfCy9ibK088FIithP3rbcFGB+F5ymUT+3La0VgLdxz8Cxd3AuMF9ATbPCodgttqfzJUqMetHbH4gt86Jz+t/GQhDwQhtARbSJqkz1Hf+h078tNnjEaqZQbyaOxfUJBxS7t+63Lad9w7/OuMT++HV9JDb4Wh9hUj2Kci0wi89jois4bpe+NDuih7f9snj3F8GrpvG3rRQ3ZLgfkFdXxrfLBu33WcxbF0suZkDQB8UjgEk99HwXhdODW+x7la5vuaBF7jAt11tixqpfAW1T0gbVMdueReeMyMUC4gg1T550wWo9gSYwS3kg/Ujts4GO0QSyfTFBFHwAgALZapbv4RLYEaVYIIGh3SXxvWGxaXFbQcJ8IWjCA/uP52laOd9MfoJnTf2Xd6bO0Nt98u1e8WHu8c5Vrp1VLPpMJEKQI4sJ9HSxbPvoxh13YfN4/5+guBTxaoz8FTS4uAjpcSsNO0dDSHQHRSke7kikznIPztC2XiVjdpKPtXMtXzzVRp3MMAORK6qwRUmJvH6j2sMmYWufUNjVfs/qnY1guR0gS9FckgcJ7K9jxAfEPrxiGM48JwicyEPybM+aY0aX9MqkVek80=
+  app: musicapp-adrcanfer
