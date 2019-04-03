@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FormSet</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT"
+            crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+    </script>
+</head>
+<body>
+<form id='form' method="post" enctype="multipart/form-data" action=" ">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="id_title"><span class="red">* </span>Title:</label>
+        <input type="text" name="title" class="form-control" maxlength="250" required id="id_title">
+    </div>
+    <div class="form-group">
+        <label for="id_emails">Emails:</label>
+        <input type="text" name="emails" class="form-control" maxlength="2500" id="id_emails">
+    </div>
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" name="twitter" id="id_twitter">
+        <label for="id_twitter" class="form-check-label">
+            Twitter
+        </label>
+    </div>
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" name="facebook" id="id_facebook">
+        <label for="id_facebook" class="form-check-label">
+            Facebook
+        </label>
+    </div>
+    <hr>
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" name="private" id="id_private">
+        <label for="id_private" class="form-check-label">
+            Private capsule
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="deadman_switch" onclick="deadman_switch_activated()"
+               id="id_deadman_switch">
+        <label class="form-check-label" for="id_deadman_switch">
+            Activate deadman switch
+        </label>
+    </div>
+    <hr>
+    <div id="input_deadman" style="display: none;">
+        <div class="form-group row">
+            <label class="col-form-label col-sm-2" for="id_deadman_counter">Deadman timer:</label>
+            <div class="col-sm-2">
+                <input class="form-control" type="number" min="0" max="5000000000" name="deadman_counter"
+                       id="id_deadman_counter">
+            </div>
+            <div class="col-sm-2">
+                <select class="form-control" name="deadman_time_unit" id="id_deadman_time_unit">
+                    <option value=0>Minutes</option>
+                    <option value=1>Days</option>
+                    <option value=2>Months</option>
+                    <option value=3>Years</option>
+                </select>
+            </div>
+        </div>
+        <hr>
+    </div>
+    {{ formset.management_form }}
+    <div class="modules" id="modules">
+        {% for formModule in formset %}
+
+            <div class="moduleform">
+                <div class="form-group">
+                    <label for="id_form-0-description"><span class="red">* </span>Description:</label>
+                    <textarea name="form-0-description" rows="5" maxlength="250" required class="form-control"
+                              id="id_form-0-description"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="id_form-0-release_date"><span class="red">* </span>Release date:</label>
+                    <input type="text" name="form-0-release_date" required class="form-control"
+                           id="id_form-0-release_date"
+                           placeholder="YYYY-MM-DD HH:MM">
+                </div>
+                <div class="form-group">
+                    <label for="id_form-0-file">File:</label>
+                    <input type="file" class="form-control-file" name="form-0-file" id="id_form-0-file" multiple>
+                </div>
+                <hr>
+            </div>
+
+        {% endfor %}
+    </div>
+    <button class="btn btn-success" value="Add module" onclick="addModule()">Add module</button>
+    <hr>
+    <button class="btn btn-primary" type="submit" value="Save capsule">Submit</button>
+    <button type="button" class="btn btn-secondary" onclick="window.location='/'">Cancel</button>
+</form>
+
+<script>
+    function addModule() {
+        var div = document.createElement('div');
+        var totalForms = parseInt(document.getElementById('id_form-TOTAL_FORMS').value);
+        div.className = 'moduleform';
+        div.innerHTML = `
+                <h5 class="subtitle">Module ` + totalForms + `</h5>
+                <div class="form-group">
+                    <label for="id_form-` + totalForms + `-description"><span class="red">* </span>Description:</label>
+                    <textarea name="form-` + totalForms + `-description" rows="5" maxlength="250" required class="form-control" id="id_form-` + totalForms + `-description"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="id_form-` + totalForms + `-release_date"><span class="red">* </span>Release date:</label>
+                    <input type="text" name="form-` + totalForms + `-release_date" required class="form-control" id="id_form-` + totalForms + `-release_date" placeholder="YYYY-MM-DD HH:MM">
+                </div>
+                <div class="form-group">
+                    <label for="id_form-` + totalForms + `-file">File:</label>
+                    <input type="file" class="form-control-file" name="form-` + totalForms + `-file" class="form-group-file" id="id_form-` + totalForms + `-file" multiple>
+                </div>
+                <button type="button" class="btn btn-danger" onclick="removeModule(this)">Delete this module</button>
+                <hr>
+            `;
+        document.getElementById('modules').appendChild(div);
+        document.getElementById('id_form-TOTAL_FORMS').value = totalForms + 1;
+    }
+
+    function removeModule(input) {
+        document.getElementById('modules').removeChild(input.parentNode);
+        var totalForms = parseInt(document.getElementById('id_form-TOTAL_FORMS').value);
+        document.getElementById('id_form-TOTAL_FORMS').value = totalForms - 1;
+    }
+
+</script>
+</body>
+</html>
